@@ -1,0 +1,36 @@
+<main style="max-width: 900px; margin: 40px auto; font-family: system-ui, sans-serif; padding: 0 20px;">
+  <header style="margin-bottom: 24px; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px;">
+    <h1 style="color: #1e293b; margin: 0;">Panel de Soporte FCE</h1>
+    <p style="color: #64748b; margin: 4px 0 0 0;">Tickets sincronizados desde Django y MySQL</p>
+  </header>
+
+  <p *ngIf="cargando" style="color: #2563eb;">Cargando tickets...</p>
+  <p *ngIf="error" style="color: #dc2626; font-weight: bold;">{{ error }}</p>
+
+  <div *ngIf="!cargando && !error">
+    <table *ngIf="tickets && tickets.length > 0; else sinTickets" style="width: 100%; border-collapse: collapse; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;">
+      <thead style="background: #1e293b; color: white;">
+        <tr>
+          <th style="padding: 12px; text-align: left;">ID</th>
+          <th style="padding: 12px; text-align: left;">Asunto / Título</th>
+          <th style="padding: 12px; text-align: left;">Descripción</th>
+          <th style="padding: 12px; text-align: left;">Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of tickets" style="border-bottom: 1px solid #e2e8f0; background: white;">
+          <td style="padding: 12px; font-weight: bold; color: #475569;">#{{ t.id }}</td>
+          <td style="padding: 12px; color: #0f172a;">{{ t.asunto || t.titulo }}</td>
+          <td style="padding: 12px; color: #475569;">{{ t.descripcion }}</td>
+          <td style="padding: 12px; color: #94a3b8; font-size: 0.9em;">
+            {{ t.fecha_creacion ? (t.fecha_creacion | date:'short') : '-' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #sinTickets>
+      <p style="color: #64748b;">No hay tickets registrados en el sistema.</p>
+    </ng-template>
+  </div>
+</main>
